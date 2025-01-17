@@ -1,0 +1,32 @@
+pip install diffusers transformers datasets accelerate safetensors
+
+
+path_to_your_dataset/
+  ├── images/
+  │   ├── 0.png
+  │   ├── 1.png
+  │   └── ...
+  └── captions.txt  # A file mapping image filenames to captions
+
+
+captions.txt:
+
+0.png	A beautiful sunrise over a mountain.
+1.png	A cat sitting on a windowsill.
+...
+
+
+accelerate launch train_text_to_image.py \
+  --pretrained_model_name_or_path="runwayml/stable-diffusion-v1-5" \
+  --dataset_name="path_to_your_dataset" \
+  --resolution=512 \
+  --output_dir="fine_tuned_model_dir" \
+  --train_batch_size=2 \
+  --gradient_accumulation_steps=4 \
+  --learning_rate=1e-4 \
+  --max_train_steps=10000 \
+  --checkpointing_steps=1000 \
+  --mixed_precision="fp16"
+
+
+

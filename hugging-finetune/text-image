@@ -1,0 +1,52 @@
+pip install diffusers transformers accelerate datasets safetensors xformers
+
+A GPU with sufficient VRAM (16GB+ recommended).
+Python 3.8+.
+PyTorch with CUDA support.
+
+git clone https://github.com/huggingface/diffusers
+cd diffusers/examples/text_to_image
+
+
+ Prepare Your Dataset
+Dataset Format:
+
+Collect images and their corresponding textual descriptions.
+Save them in a directory with the following structure:
+Copy code
+dataset/
+├── images/
+│   ├── image1.jpg
+│   ├── image2.jpg
+│   └── ...
+└── captions.txt
+Each line in captions.txt corresponds to the image in the images/ folder.
+
+
+Training script:
+
+accelerate launch train_text_to_image.py \
+  --pretrained_model_name_or_path="black-forest-labs/FLUX.1-schnell" \
+  --dataset_name="path_to_your_dataset" \
+  --resolution=512 \
+  --output_dir="output_model_dir" \
+  --train_batch_size=2 \
+  --gradient_accumulation_steps=2 \
+  --learning_rate=1e-5 \
+  --max_train_steps=5000 \
+  --save_steps=500 \
+  --mixed_precision="fp16"
+
+
+from diffusers import StableDiffusionPipeline
+
+# Load your fine-tuned model
+pipe = StableDiffusionPipeline.from_pretrained("output_model_dir")
+pipe = pipe.to("cuda")
+
+# Generate an image
+prompt = "Your custom prompt"
+image = pipe(prompt).images[0]
+
+# Save the generated image
+image.save("output.png")

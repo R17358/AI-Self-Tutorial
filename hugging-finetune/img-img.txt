@@ -1,0 +1,8 @@
+accelerate launch train_controlnet.py \
+  --pretrained_model_name_or_path="runwayml/stable-diffusion-v1-5" \
+  --controlnet_model_name_or_path="lllyasviel/control_v11p_sd15_canny" \
+  --dataset_name="path_to_your_dataset" \
+  --output_dir="fine_tuned_controlnet" \
+  --train_batch_size=2 \
+  --learning_rate=5e-6 \
+  --max_train_steps=5000

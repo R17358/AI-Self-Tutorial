@@ -1,0 +1,62 @@
+# Install necessary libraries
+!pip install transformers
+!pip install datasets
+!pip install torch
+
+# Importing libraries
+from transformers import MarianMTModel, MarianTokenizer
+from datasets import load_dataset
+
+# Load a parallel translation dataset (example: WMT or any translation dataset)
+dataset = load_dataset("wmt14", "de-en")  # Example: German to English translation dataset
+train_data = dataset["train"]
+
+# Load a pretrained MarianMT model and tokenizer
+model_name = 'Helsinki-NLP/opus-mt-de-en'  # German to English
+model = MarianMTModel.from_pretrained(model_name)
+tokenizer = MarianTokenizer.from_pretrained(model_name)
+
+# Preprocess the data (tokenizing input and output text)
+def preprocess_function(examples):
+    inputs = [ex for ex in examples["de"]]  # German text
+    targets = [ex for ex in examples["en"]]  # English translation
+    model_inputs = tokenizer(inputs, max_length=512, truncation=True, padding=True)
+    labels = tokenizer(targets, max_length=512, truncation=True, padding=True)
+    model_inputs["labels"] = labels["input_ids"]
+    return model_inputs
+
+train_data = train_data.map(preprocess_function, batched=True)
+
+# Fine-tuning the model using Trainer API
+from transformers import Trainer, TrainingArguments
+
+training_args = TrainingArguments(
+    output_dir="./results",
+    num_train_epochs=3,
+    per_device_train_batch_size=4,
+    per_device_eval_batch_size=4,
+    warmup_steps=500,
+    weight_decay=0.01,
+    logging_dir="./logs",
+)
+
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_data,
+)
+
+# Fine-tune the model
+trainer.train()
+
+# Translate new sentences
+def translate_text(text):
+    inputs = tokenizer(text, return_tensors="pt", max_length=512, truncation=True)
+    translated = model.generate(inputs["input_ids"], max_length=512)
+    translation = tokenizer.decode(translated[0], skip_special_tokens=True)
+    return translation
+
+# Example translation
+text = "Hallo, wie geht es dir?"  # German text
+translated_text = translate_text(text)
+print(f"Translated text: {translated_text}")

@@ -1,0 +1,17 @@
+Text Models (e.g., GPT, BERT): Use for text classification, summarization, QA, etc.
+Vision Models (e.g., ViT, DINO): Use for image classification, object detection, etc.
+Text-to-Image Models (e.g., Stable Diffusion): Use for generating images from text.
+Image-to-Image Models (e.g., ControlNet): Use for guided image generation.
+
+
+pip install transformers datasets accelerate diffusers safetensors
+
+
+Dataset formats depend on the task:
+Text Models: Text or text pairs with labels.
+Vision Models: Images with labels.
+Text-to-Image Models: Image-caption pairs.
+
+Select Pretrained Model
+Pick a model from Hugging Face's Model Hub (e.g., bert-base-uncased, runwayml/stable-diffusion-v1-5, google/vit-base-patch16-224).
+

@@ -1,0 +1,15 @@
+import kagglehub
+
+# Download latest version
+path = kagglehub.dataset_download("columbine/imdb-dataset-sentiment-analysis-in-csv-format")
+
+print("Path to dataset files:", path)
+
+import os
+
+# List files in the dataset directory
+files = os.listdir(path)
+
+print("Available files:", files)
+
+data_path = os.path.join(dataset_dir, "Train.csv")

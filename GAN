@@ -1,0 +1,13 @@
+WaveGAN: A GAN used for generating raw audio waveforms, primarily for tasks like music generation or speech synthesis.
+SpecGAN: Uses GANs to generate spectrograms, which are then converted into audio using techniques like Griffin-Lim or neural vocoders like WaveGlow.
+MelGAN: A high-performance GAN for generating audio from spectrograms.
+
+DCGAN (Deep Convolutional GAN): Used for generating images, typically for tasks like generating faces, objects, etc.
+StyleGAN: Known for generating high-quality, realistic images, such as human faces or artwork.
+CycleGAN: Used for tasks like image-to-image translation (e.g., converting a photo of a horse to a zebra).
+
+TGAN (Temporal GAN): Uses a GAN architecture to generate a sequence of frames in a coherent way.
+MoCoGAN (Motion and Content GAN): Generates realistic video by decoupling the motion and content of the frames.
+
+Attention Mechanism: This helps the generator focus on relevant parts of the input text description when generating different regions of the image.
+Image Refinement: It generates more realistic and detailed images by iteratively refining its output.

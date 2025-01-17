@@ -1,0 +1,36 @@
+from google.colab import files
+files.upload()
+
+
+2. Install and Configure the Kaggle API
+After uploading kaggle.json, follow these steps:
+
+
+
+python
+Copy code
+# Install the Kaggle library
+!pip install kaggle
+
+# Move kaggle.json to the correct directory
+!mkdir -p ~/.kaggle
+!cp kaggle.json ~/.kaggle/
+
+# Set permissions for the file
+!chmod 600 ~/.kaggle/kaggle.json
+
+
+
+# Replace 'username/dataset-name' with your dataset's identifier
+!kaggle datasets download -d username/dataset-name
+
+
+# Unzip the dataset (replace 'dataset-name.zip' with the actual filename)
+!unzip dataset-name.zip
+
+import pandas as pd
+
+# Replace 'file.csv' with the actual file name
+data = pd.read_csv('file.csv')
+print(data.head())
+
